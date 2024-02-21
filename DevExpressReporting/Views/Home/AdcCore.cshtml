@@ -1,0 +1,86 @@
+﻿@model List<AdcCoreSummary>
+
+<div class="container-fluid">
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">ADC ALL Transaction Report</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xl-12 col-sm-12">
+
+                    @(Html.DevExtreme().DataGrid<AdcCoreSummary>()
+                            .DataSource(ds => ds.Array()
+                            .Data(Model) // Bind the data directly
+                            )
+                            .Paging(p => p.PageSize(10))
+                            .HeaderFilter(hf =>
+                            {
+                                hf.Visible(true);
+                                hf.Search(hfs => hfs.Enabled(true));
+                            })
+                            .FilterRow(filterRow => filterRow
+                            .Visible(true)
+                            .ApplyFilter(GridApplyFilterMode.Auto)
+                            )
+                            .Scrolling(scrolling => scrolling.ColumnRenderingMode(GridColumnRenderingMode.Virtual))
+                            .Scrolling(x => x.RowRenderingMode(GridRowRenderingMode.Virtual))
+                            .RowAlternationEnabled(true)
+
+                            .AllowColumnReordering(true)
+                            .AllowColumnResizing(true)
+                            .ColumnAutoWidth(true)
+                            .ShowBorders(true)
+                            .ColumnChooser(c => c.Enabled(true))
+                            .ColumnFixing(c => c.Enabled(true))
+                            .Columns(columns =>
+                            {
+                                columns.AddFor(m => m.GlCode);
+
+                                columns.AddFor(m => m.Date).Caption("Tran Date");
+
+                                columns.AddFor(m => m.Branch);
+
+                                columns.AddFor(m => m.Description);
+
+                                columns.AddFor(m => m.Op_Bal_A).Caption("Op_Bal (A)");
+
+                                columns.AddFor(m => m.Cl_Bal_B).Caption("Cl_Bal (B)");
+
+                                columns.AddFor(m => m.debit_amount).Caption("Db_Summ (C)");
+
+                                columns.AddFor(m => m.credit_amount).Caption("Cr_Summ (D)");
+
+                                columns.AddFor(m => m.Trans_Count).Caption("Count");
+
+                                columns.AddFor(m => m.Diff_in_Open_Cls_Bal_A).Caption("Diff (A-B) = X");
+
+                                columns.AddFor(m => m.Sum_of_Db_Cr_Summation_B).Caption("Diff (C+D) = Y");
+
+                                columns.AddFor(m => m.Differnce_A_B).Caption("Diff (X & Y)");
+                            })
+                            @* .Summary(s => s.TotalItems(items =>
+                            {
+                                items.AddFor(m => m.OrderNumber).SummaryType(SummaryType.Count);
+
+                                items.AddFor(m => m.OrderDate).SummaryType(SummaryType.Min)
+                                    .CustomizeText(@<text>
+                                        function(data) { return "First: " + formatDate(data.value); }
+                                    </text>);
+
+                                items.AddFor(m => m.Differnce_A_B)
+                                    .SummaryType(SummaryType.Sum)
+                                    .ValueFormat(Format.Currency);
+                            })
+                            )*@
+                        )
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
